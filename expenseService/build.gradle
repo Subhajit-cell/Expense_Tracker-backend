@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.5'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.expense'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    // ✅ Spring Boot Core
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // ✅ Spring Data JPA (for MySQL)
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    // ✅ MySQL Driver
+    runtimeOnly 'com.mysql:mysql-connector-j'
+
+    // ✅ Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // ✅ Spring Security (optional but recommended)
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // ✅ Kafka
+    implementation 'org.springframework.kafka:spring-kafka'
+
+    // ✅ Lombok (clean code)
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    // ✅ DevTools (auto reload)
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // ✅ Actuator (monitoring)
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+    // ✅ OpenAPI / Swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
+
+    // ✅ Testing
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
