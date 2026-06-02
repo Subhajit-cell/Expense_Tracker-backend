@@ -1,5 +1,6 @@
 FROM python:3.11-slim
 
+# Set working directory inside container
 WORKDIR /app
 
 # Copy the distribution package
@@ -8,12 +9,15 @@ COPY dist/ds_service-1.0.tar.gz .
 # Install dependencies
 RUN pip install --no-cache-dir ds_service-1.0.tar.gz
 
-# Copy your source code into /app
+# Copy ONLY your clean source code (ignoring dsenv thanks to .dockerignore)
 COPY . .
 
+# Set environment variables so Python can see the 'src' folder layout
+ENV PYTHONPATH="/app"
 ENV PYTHONUNBUFFERED=1
 
+# Expose Flask's default port
 EXPOSE 5000
 
-# 📑 TEMP AUDIT: Print out every file inside the container to see the path layout
-CMD ["ls", "-R", "/app"]
+# Run the config file directly from its physical location
+CMD ["python", "src/app/config.py"]
