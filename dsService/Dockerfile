@@ -2,18 +2,18 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Copy the package from the dist folder inside dsService
+# Copy the distribution package
 COPY dist/ds_service-1.0.tar.gz .
 
+# Install dependencies
 RUN pip install --no-cache-dir ds_service-1.0.tar.gz
 
-# Copy everything from dsService into /app
+# Copy your source code into /app
 COPY . .
 
 ENV PYTHONUNBUFFERED=1
 
 EXPOSE 5000
 
-# 📑 FIX: Step directly into the relative path from the context root
-WORKDIR /app/src/app
-CMD ["python", "config.py"]
+# 📑 TEMP AUDIT: Print out every file inside the container to see the path layout
+CMD ["ls", "-R", "/app"]
