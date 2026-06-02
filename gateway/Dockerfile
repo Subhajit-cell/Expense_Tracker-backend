@@ -8,7 +8,7 @@ RUN mkdir -p /usr/local/share/lua/5.1/kong/plugins
 # 2. Copy the config folder (containing kong.yml) into the container
 COPY ./config /usr/local/kong/declarative
 
-# 3. Copy the custom-plugins folder from your root directory into the container
+# 3. 📑 FIXED: Look at the current context root, not up one level!
 COPY ./custom-plugins /usr/local/share/lua/5.1/kong/plugins
 
 # 4. Set the exact Kong runtime environment variables from your setup
