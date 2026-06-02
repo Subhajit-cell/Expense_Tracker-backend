@@ -1,0 +1,31 @@
+_format_version: "3.0"
+_transform: true
+
+services:
+  - name: auth-service
+    url: http://Expense_Tracker-backend:9898  # Corrected custom port
+    routes:
+      - name: auth-route
+        paths: [/api/v1/auth]
+
+  - name: user-service
+    url: http://Expense_Tracker-backend-2:9810 # Corrected custom port
+    routes:
+      - name: user-route
+        paths: [/api/v1/users]
+    plugins:
+      - name: custom-auth
+        config:
+          # 📑 FIXED: Updated port from 8080 to 9898 to match your auth-service
+          auth_service_url: http://Expense_Tracker-backend:9898/api/v1/auth/validate
+
+  - name: expense-service
+    url: http://Expense_Tracker-expenseService:9820 # Corrected custom port
+    routes:
+      - name: expense-route
+        paths: [/api/v1/expenses]
+    plugins:
+      - name: custom-auth
+        config:
+          # 📑 FIXED: Updated port from 8080 to 9898 to match your auth-service
+          auth_service_url: http://Expense_Tracker-backend:9898/api/v1/auth/validate
