@@ -5,10 +5,10 @@ USER root
 # 1. Create the plugins target directory structure inside the container
 RUN mkdir -p /usr/local/share/lua/5.1/kong/plugins
 
-# 2. 📑 FIXED: Point explicitly to the gateway subdirectory config folder
-COPY ./gateway/config /usr/local/kong/declarative
+# 2. 📑 FIXED: Copy the config folder from the immediate directory
+COPY ./config /usr/local/kong/declarative
 
-# 3. 📑 FIXED: Point directly to the root-level custom-plugins folder
+# 3. 📑 FIXED: Copy custom-plugins directly from the immediate directory
 COPY ./custom-plugins /usr/local/share/lua/5.1/kong/plugins
 
 # 4. Set the exact Kong runtime environment variables from your setup
