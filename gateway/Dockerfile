@@ -13,7 +13,6 @@ COPY ./custom-plugins /usr/local/share/lua/5.1/kong/plugins
 
 # 4. Set the exact Kong runtime environment variables from your setup
 ENV KONG_DATABASE="off"
-# 📑 FIXED: Changed extension from .yml to .yaml to match your file name!
 ENV KONG_DECLARATIVE_CONFIG="/usr/local/kong/declarative/kong.yaml"
 ENV KONG_PROXY_ACCESS_LOG="/dev/stdout"
 ENV KONG_ADMIN_ACCESS_LOG="/dev/stdout"
@@ -22,6 +21,11 @@ ENV KONG_ADMIN_ERROR_LOG="/dev/stderr"
 ENV KONG_LOG_LEVEL="debug"
 ENV KONG_PLUGINS="bundled,custom-auth"
 ENV KONG_LUA_PACKAGE_PATH="/usr/local/share/lua/5.1/?.lua;;"
+
+# 📑 LOW MEMORY TUNING FOR RENDER (Prevents OOM)
+ENV KONG_NGINX_WORKER_PROCESSES="1"
+ENV KONG_MEM_CACHE_SIZE="32m"
+ENV KONG_ANONYMOUS_REPORTS="off"
 
 # 5. Overwrite the listening port so it binds publicly on port 8000 for Render
 ENV KONG_PROXY_LISTEN="0.0.0.0:8000, 0.0.0.0:8443 ssl http2"
