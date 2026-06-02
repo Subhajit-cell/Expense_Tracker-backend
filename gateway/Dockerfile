@@ -5,15 +5,16 @@ USER root
 # 1. Create the plugins target directory structure inside the container
 RUN mkdir -p /usr/local/share/lua/5.1/kong/plugins
 
-# 2. 📑 FIXED: Copy the config folder from the immediate directory
+# 2. Copy the config folder from the immediate directory
 COPY ./config /usr/local/kong/declarative
 
-# 3. 📑 FIXED: Copy custom-plugins directly from the immediate directory
+# 3. Copy custom-plugins directly from the immediate directory
 COPY ./custom-plugins /usr/local/share/lua/5.1/kong/plugins
 
 # 4. Set the exact Kong runtime environment variables from your setup
 ENV KONG_DATABASE="off"
-ENV KONG_DECLARATIVE_CONFIG="/usr/local/kong/declarative/kong.yml"
+# 📑 FIXED: Changed extension from .yml to .yaml to match your file name!
+ENV KONG_DECLARATIVE_CONFIG="/usr/local/kong/declarative/kong.yaml"
 ENV KONG_PROXY_ACCESS_LOG="/dev/stdout"
 ENV KONG_ADMIN_ACCESS_LOG="/dev/stdout"
 ENV KONG_PROXY_ERROR_LOG="/dev/stderr"
