@@ -1,20 +1,16 @@
 FROM python:3.11-slim
 
-# Set working directory inside container
 WORKDIR /app
 
-# Copy the distribution package
+# Copy the package from your isolated dsService folder scope
 COPY dist/ds_service-1.0.tar.gz .
 
-# Install dependencies
+# This unpacks and installs your actual application code into /usr/local/lib/python3.11/site-packages/
 RUN pip install --no-cache-dir ds_service-1.0.tar.gz
-
-# Copy everything from the context root
-COPY . .
 
 ENV PYTHONUNBUFFERED=1
 
 EXPOSE 5000
 
-# 📑 SMART LAUNCHER: Finds config.py dynamically, prints its path, and runs it!
-CMD ["sh", "-c", "FOUND_PATH=$(find . -name config.py | head -n 1); echo '🚀 Found config.py at: '$FOUND_PATH; python $FOUND_PATH"]
+# 📑 FIXED: Run via the global python environment flask module runner
+CMD ["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=5000"]
