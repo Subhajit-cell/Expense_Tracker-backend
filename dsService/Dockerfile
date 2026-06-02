@@ -9,15 +9,12 @@ COPY dist/ds_service-1.0.tar.gz .
 # Install dependencies
 RUN pip install --no-cache-dir ds_service-1.0.tar.gz
 
-# Copy ONLY your clean source code (ignoring dsenv thanks to .dockerignore)
+# Copy everything from the context root
 COPY . .
 
-# Set environment variables so Python can see the 'src' folder layout
-ENV PYTHONPATH="/app"
 ENV PYTHONUNBUFFERED=1
 
-# Expose Flask's default port
 EXPOSE 5000
 
-# Run the config file directly from its physical location
-CMD ["python", "src/app/config.py"]
+# 📑 SMART LAUNCHER: Finds config.py dynamically, prints its path, and runs it!
+CMD ["sh", "-c", "FOUND_PATH=$(find . -name config.py | head -n 1); echo '🚀 Found config.py at: '$FOUND_PATH; python $FOUND_PATH"]
