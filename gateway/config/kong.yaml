@@ -30,3 +30,14 @@ services:
       - name: custom-auth
         config:
           auth_service_url: http://Expense_Tracker-backend:9898/api/v1/auth/validate
+
+  - name: ds-service
+    url: http://Expense_Tracker-backend-dsService:5000
+    routes:
+      - name: ds-route
+        paths:
+          - "/api/v1/ds"
+    plugins:
+      - name: custom-auth
+        config:
+          auth_service_url: http://Expense_Tracker-backend:9898/api/v1/auth/validate
