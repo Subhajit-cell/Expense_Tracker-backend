@@ -1,15 +1,21 @@
 FROM python:3.11-slim
 
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy the distribution package
-COPY dist/ds_service-1.0.tar.gz .
+# Copy requirements and install them
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Install dependencies and the package
-RUN pip install --no-cache-dir ds_service-1.0.tar.gz
+# Copy all project files (respecting the updated .dockerignore)
+COPY . .
 
+# Set the environment variable to point to the __init__.py where 'app' is defined
+ENV FLASK_APP=dsenv.src.app
 ENV PYTHONUNBUFFERED=1
+
+# Expose Flask's default port
 EXPOSE 5000
 
-# 📑 AUDIT COMMAND: Inspects python site-packages to see what module name was registered
-CMD ["python", "-c", "import pkg_resources; [print('📦 Registered Package module names:', dist.get_metadata_lines('top_level.txt')) for dist in pkg_resources.working_set if 'ds-service' in dist.project_name or 'ds_service' in dist.project_name]"]
+# Run Flask and bind it to all interfaces
+CMD ["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=5000"]

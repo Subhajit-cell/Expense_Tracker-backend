@@ -1,4 +1,7 @@
-dsenv/
+dsenv/Include/
+dsenv/Lib/
+dsenv/Scripts/
+dsenv/pyvenv.cfg
 __pycache__/
 *.pyc
 .git/
