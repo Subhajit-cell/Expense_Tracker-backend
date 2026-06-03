@@ -1,21 +1,19 @@
 FROM python:3.11-slim
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy requirements and install them
+# Copy and install dependencies
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy all project files (respecting the updated .dockerignore)
+# Copy all project files
 COPY . .
 
-# Set the environment variable to point to the __init__.py where 'app' is defined
+# 📑 FIXED: Add the nested source paths to PYTHONPATH so internal imports resolve
+ENV PYTHONPATH="/app/dsenv:/app/dsenv/src:/app/dsenv/src/app"
 ENV FLASK_APP=dsenv.src.app
 ENV PYTHONUNBUFFERED=1
 
-# Expose Flask's default port
 EXPOSE 5000
 
-# Run Flask and bind it to all interfaces
 CMD ["python", "-m", "flask", "run", "--host=0.0.0.0", "--port=5000"]
